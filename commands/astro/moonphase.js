@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require('discord.js');
 const { Moon } = require('lunarphase-js');
 const chrono = require('chrono-node');
+const dayjs = require('dayjs');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -13,6 +14,6 @@ module.exports = {
     async execute(interaction) {
         const mp_date = chrono.parseDate(interaction.options.getString('on_date') ?? 'today');
         const phase = Moon.lunarPhase(mp_date);
-        await interaction.reply(phase + ' ' + Moon.emojiForLunarPhase(phase));
+        await interaction.reply('> On ' + dayjs(mp_date).format('D MMM YYYY') + ':  '+ phase + '  ' + Moon.emojiForLunarPhase(phase));
     }
 }

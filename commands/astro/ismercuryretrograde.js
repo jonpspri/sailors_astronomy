@@ -25,8 +25,9 @@ module.exports = {
             res.on('end',  async () => {
                 try {
                     await interaction.reply(
-                        JSON.parse(response).is_retrograde ? "Yes" : "No"
-                    )
+                        '> On ' + day.format('D MMM YYYY') + ':  ' +
+                        (JSON.parse(response).is_retrograde ? "Yes" : "No")
+                    );
                 } catch (e) {
                     console.error(e.message);
                 }
