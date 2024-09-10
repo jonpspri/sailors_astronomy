@@ -12,8 +12,7 @@ module.exports = {
         ),
     async execute(interaction) {
         const mp_date = chrono.parseDate(interaction.options.getString('on_date') ?? 'today');
-        console.log(interaction.createdAt);
         const phase = Moon.lunarPhase(mp_date);
-        await interaction.reply(phase + ' ' + Moon.lunarPhaseEmoji());
+        await interaction.reply(phase + ' ' + Moon.emojiForLunarPhase(phase));
     }
 }
