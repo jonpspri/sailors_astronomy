@@ -1,16 +1,26 @@
 const { SlashCommandBuilder } = require('discord.js');
 const https = require('node:https');
+const chrono = require('chrono-node');
+const dayjs = require('dayjs');
 
 module.exports = {
     data: new SlashCommandBuilder()
-            .setName('ismercuryretrograde')
-            .setDescription('Sees whether mercury is retrograde now'),
+        .setName('ismercuryretrograde')
+        .setDescription('Sees whether mercury is retrograde now')
+        .addStringOption(option =>
+            option.setName('on_date')
+                .setDescription('Date for current phase')
+        ),
     async execute(interaction) {
-        https.get('https://mercuryretrogradeapi.com', {}, async (res) => {
-            res.setEncoding('utf8');
-            let response = "";
-            res.on('data', (chunk) => {
-                response = response + chunk;
+        const day = dayjs(chrono.parseDate(interaction.options.getString('on_date') ?? 'today'));
+        https.get(
+            'https://mercuryretrogradeapi.com?date=' + day.format('YYYY-MM-DD'),
+            {},
+            async (res) => {
+                res.setEncoding('utf8');
+                let response = "";
+                res.on('data', (chunk) => {
+                    response = response + chunk;
             });
             res.on('end',  async () => {
                 try {
